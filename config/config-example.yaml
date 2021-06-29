@@ -1,0 +1,50 @@
+# You can edit instapy section of that config without stopping the server
+# Values will be fetched on next main cycle start
+app:
+  log_level: INFO
+  # How long to wait between job iterations.
+  # Low values will not lead to quote breach
+  main_cycle_rate_minutes: 1.5
+  # Useful for debugging
+  headless_browser: true
+instagram:
+  # Email won't do!
+  login: <login>
+  password: <password>
+instapy:
+  # Those values affect how many follows/unfollows/likes are made
+  # during one main cycle. For example, if you set follow_count=200
+  # then you will gain all that followers as fast as possible without breaching
+  # quota, but main cycle will block for some time, depending on quota, and will
+  # not be able to like, comment and accept follow requests.
+  # you can also set to 0 to stop certain actions.
+  follow_count: 5
+  unfolow_count: 5
+  like_count: 10
+
+  follow_user_followers:
+    - arianagrande
+    - nike
+  # How long to wait before unfollowing accounts
+  # which do not followed you back
+  unfollow_after_hours: 1
+  follow_tags:
+    - fashion
+  like_tags:
+    - fashion
+
+  # Percent of liked posts which are also commented
+  comment_percentage: 80
+  comments:
+    - 'I love your profile! @{}'
+    - 'Wow :thumbsup:'
+    - 'Just incredible :open_mouth:'
+  # Set to "All" to comment under all posts
+  comment_media: Photo
+
+  # Ignored tags
+  ignore:
+    - nsfw
+  # Set this to true to stop all following action
+  # and unfollow all accounts. Might be useful while testing
+  unfollow_all: false
