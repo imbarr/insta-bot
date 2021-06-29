@@ -3,8 +3,8 @@
 app:
   log_level: INFO
   # How long to wait between job iterations.
-  # Low values will not lead to quote breach
-  main_cycle_rate_minutes: 1.5
+  # Low values will not lead to quote breach, but can be suspicious
+  main_cycle_rate_minutes: 30
   # Useful for debugging
   headless_browser: true
 instagram:
@@ -19,7 +19,7 @@ instapy:
   # not be able to like, comment and accept follow requests.
   # you can also set to 0 to stop certain actions.
   follow_count: 5
-  unfolow_count: 5
+  unfollow_count: 5
   like_count: 10
 
   follow_user_followers:
@@ -35,6 +35,7 @@ instapy:
 
   # Percent of liked posts which are also commented
   comment_percentage: 80
+  # Set at least 10-20 comments to avoid looking suspicious
   comments:
     - 'I love your profile! @{}'
     - 'Wow :thumbsup:'
