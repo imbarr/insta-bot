@@ -96,7 +96,7 @@ def follow_activity():
 
 def interact_activity():
     session.like_by_tags(tags=config.cfg['instapy']['like_tags'],
-                         amount=config.cfg['instapy']['like_count'], interact=False)
+                         amount=config.cfg['instapy']['like_count'], interact=True)
     session.like_by_feed(amount=config.cfg['instapy']['like_count'],
                          interact=True, randomize=False, unfollow=False)
 
