@@ -12,6 +12,12 @@ instagram:
   login: <login>
   password: <password>
 instapy:
+  # Those actions will not be performed.
+  # Possible values: follow_users, follow_tags, unfollow, interact_feed, interact_tags
+  skip_actions:
+    - follow_users
+    - follow_tags
+
   # Those values affect how many follows/unfollows/likes are made
   # during one main cycle. For example, if you set follow_count=200
   # then you will gain all that followers as fast as possible without breaching
@@ -48,6 +54,3 @@ instapy:
   # Ignored tags
   ignore:
     - nsfw
-  # Set this to true to stop all following action
-  # and unfollow all accounts. Might be useful while testing
-  unfollow_all: false

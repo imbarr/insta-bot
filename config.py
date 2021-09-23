@@ -1,4 +1,4 @@
-from strictyaml import load, Map, Str, Int, Seq, Float, Bool, EmptyList, Optional
+from strictyaml import load, Map, Str, Int, Seq, Float, Bool, EmptyList, Optional, Enum
 import logging
 
 schema = Map({
@@ -12,6 +12,16 @@ schema = Map({
         'password': Str()
     }),
     'instapy': Map({
+        Optional('skip_actions', default=[]): Seq(Enum([
+            'pods',
+            'accept_follow',
+            'follow_users',
+            'follow_tags',
+            'unfollow',
+            'interact_feed',
+            'interact_tags'
+        ])) | EmptyList(),
+
         'follow_count': Int(),
         'unfollow_count': Int(),
         'like_count': Int(),
@@ -21,7 +31,6 @@ schema = Map({
         'follow_user_followers': Seq(Str()) | EmptyList(),
         'follow_tags': Seq(Str()) | EmptyList(),
         'unfollow_after_hours': Float(),
-        'unfollow_all': Bool(),
 
         'like_tags': Seq(Str()) | EmptyList(),
         'comment_percentage': Int(),

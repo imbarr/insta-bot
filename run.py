@@ -65,40 +65,43 @@ def set_session_settings():
                          media=None if media.lower() == 'all' else media)
     percentage = config.cfg['instapy']['comment_percentage']
     session.set_do_comment(enabled=True, comment_liked_photo=True, percentage=percentage)
-    session.join_pods('fashion', engagement_mode='no_comments')
+    if 'pods' not in config.cfg['instapy']['skip_actions']:
+        logging.info('Pods interacting')
+        session.join_pods('fashion', engagement_mode='no_comments')
 
 
 def follow_activity():
-    if config.cfg['instapy']['unfollow_all']:
-        logging.info('Unfollowing all users')
-        session.unfollow_users(amount=100, allFollowing=True,
-                               style="FIFO", unfollow_after=None,
-                               sleep_delay=quota.get_sleep_delay())
-        return
+    if 'accept_follow' not in config.cfg['instapy']['skip_actions']:
+        logging.info('Accepting follow requests')
+        session.accept_follow_requests(amount=50)
 
-    logging.info('Accepting follow requests')
-    session.accept_follow_requests(amount=50)
+    if 'follow_users' not in config.cfg['instapy']['skip_actions']:
+        logging.info('Following user followers')
+        session.follow_user_followers(usernames=config.cfg['instapy']['follow_user_followers'],
+                                      amount=config.cfg['instapy']['follow_count'],
+                                      randomize=False, interact=False, sleep_delay=quota.get_sleep_delay())
 
-    logging.info('Following user followers')
-    session.follow_user_followers(usernames=config.cfg['instapy']['follow_user_followers'],
-                                  amount=config.cfg['instapy']['follow_count'],
-                                  randomize=False, interact=False, sleep_delay=quota.get_sleep_delay())
+    if 'follow_tags' not in config.cfg['instapy']['skip_actions']:
+        logging.info('Following by tags')
+        session.follow_by_tags(tags=config.cfg['instapy']['follow_tags'],
+                               randomize=False, amount=config.cfg['instapy']['follow_count'])
 
-    logging.info('Following by tags')
-    session.follow_by_tags(tags=config.cfg['instapy']['follow_tags'],
-                           randomize=False, amount=config.cfg['instapy']['follow_count'])
-
-    unfollow_after = int(config.cfg['instapy']['unfollow_after_hours'] * 60 * 60)
-    logging.info(f'Setting unfollow action after {unfollow_after} seconds')
-    session.unfollow_users(amount=config.cfg['instapy']['follow_count'], nonFollowers=True, style="FIFO",
-                           unfollow_after=unfollow_after, sleep_delay=quota.get_sleep_delay())
+    if 'unfollow' not in config.cfg['instapy']['skip_actions']:
+        unfollow_after = int(config.cfg['instapy']['unfollow_after_hours'] * 60 * 60)
+        logging.info(f'Setting unfollow action after {unfollow_after} seconds')
+        session.unfollow_users(amount=config.cfg['instapy']['unfollow_count'], nonFollowers=True, style="FIFO",
+                               unfollow_after=unfollow_after, sleep_delay=quota.get_sleep_delay())
 
 
 def interact_activity():
-    session.like_by_tags(tags=config.cfg['instapy']['like_tags'],
-                         amount=config.cfg['instapy']['like_count'], interact=True)
-    session.like_by_feed(amount=config.cfg['instapy']['like_count'],
-                         interact=True, randomize=False, unfollow=False)
+    if 'interact_tags' not in config.cfg['instapy']['skip_actions']:
+        logging.info('Interacting by tags')
+        session.like_by_tags(tags=config.cfg['instapy']['like_tags'],
+                             amount=config.cfg['instapy']['like_count'], interact=True)
+    if 'interact_feed' not in config.cfg['instapy']['skip_actions']:
+        logging.info('Interacting by feed')
+        session.like_by_feed(amount=config.cfg['instapy']['like_count'],
+                             interact=True, randomize=False, unfollow=False)
 
 
 if __name__ == '__main__':
