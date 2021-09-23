@@ -58,6 +58,7 @@ def main_cycle():
 
 
 def set_session_settings():
+    session.set_skip_users(skip_private=config.cfg['instapy']['skip_private'])
     session.set_dont_like(config.cfg['instapy']['ignore'])
     media = config.cfg['instapy']['comment_media']
     session.set_comments(config.cfg['instapy']['comments'],

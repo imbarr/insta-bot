@@ -1,6 +1,5 @@
-from strictyaml import load, Map, Str, Int, Seq, Float, Bool, EmptyList
+from strictyaml import load, Map, Str, Int, Seq, Float, Bool, EmptyList, Optional
 import logging
-import schedule
 
 schema = Map({
     'app': Map({
@@ -16,6 +15,8 @@ schema = Map({
         'follow_count': Int(),
         'unfollow_count': Int(),
         'like_count': Int(),
+
+        Optional('skip_private', default=False): Bool(),
 
         'follow_user_followers': Seq(Str()) | EmptyList(),
         'follow_tags': Seq(Str()) | EmptyList(),

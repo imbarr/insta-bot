@@ -22,6 +22,8 @@ instapy:
   unfollow_count: 5
   like_count: 10
 
+  skip_private: false
+
   follow_user_followers:
     - arianagrande
     - nike
